@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "reddit-project-eks"
+    bucket         = "reddit-project-jenkins"
     key            = "End-to-End-Kubernetes-DevSecOps-Project/EKS-Server-TF/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "terraform-locks"
+    dynamodb_table = "terraform-locks-jenkins"
     encrypt        = true
   }
   required_version = ">=0.13.0"
