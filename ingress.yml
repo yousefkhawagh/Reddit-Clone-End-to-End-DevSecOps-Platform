@@ -2,23 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-reddit-app
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
+  ingressClassName: alb
   rules:
-  - host: "domain.com"
-    http:
+  - http:
       paths:
-      - pathType: Prefix
-        path: "/test"
-        backend:
-          service:
-            name: reddit-clone-service
-            port:
-              number: 3000
-  - host: "*.domain.com"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/test"
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: reddit-clone-service
