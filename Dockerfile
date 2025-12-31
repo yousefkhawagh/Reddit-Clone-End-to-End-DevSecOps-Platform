@@ -6,6 +6,10 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
+COPY /src .
+COPY /public .
+COPY /functions .
+
 RUN npm run build
 
 EXPOSE 3000
