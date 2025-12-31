@@ -6,10 +6,14 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:561876735244:certificate/f47522ac-4e1f-41d1-9181-95610ce8b4d9
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
 spec:
   ingressClassName: alb
   rules:
-  - http:
+  - host: reddit-clone.site
+    http:
       paths:
       - path: /
         pathType: Prefix
