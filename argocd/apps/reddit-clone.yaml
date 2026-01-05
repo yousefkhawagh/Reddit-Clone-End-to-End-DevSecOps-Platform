@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: reddit-clone
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Ahmed-AboElWafa/REDDIT-PROJECT.git
+    targetRevision: main
+    path: K8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
