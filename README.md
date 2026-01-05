@@ -1,34 +1,28 @@
-# Reddit Clone App on Kubernetes with Ingress
-This project demonstrates how to deploy a Reddit clone app on Kubernetes with Ingress and expose it to the world using Minikube as the cluster.
+# REDDIT-PROJECT — Full DevOps CI/CD + GitOps + Monitoring on AWS EKS
 
-## Prerequisites
-Before you begin, you should have the following tools installed on your local machine: 
+This repository contains a **Next.js Reddit Clone** plus everything needed to deploy it on **AWS EKS** using:
 
-- Docker
-- Kubeatm master and worker node
-- kubectl
-- Git
+- **Terraform** for infrastructure (EKS + optional Jenkins server)
+- **Jenkins** for CI (build, scan, containerize, push image)
+- **ArgoCD** for CD (GitOps auto-sync to EKS)
+- **ALB Ingress + ACM + Route 53** for public HTTPS + custom domain
+- **Prometheus + Grafana** for monitoring (kube-prometheus-stack)
+- Security scanning: **SonarQube**, **OWASP Dependency-Check**, **Trivy**
 
-You can install Prerequisites by doing this steps. [click here & complete all steps one by one]().
+---
 
+## What this project does
 
-## Installation
-Follow these steps to install and run the Reddit clone app on your local machine:
-
-1) Clone this repository to your local machine: `git clone https://github.com/LondheShubham153/reddit-clone-k8s-ingress.git`
-2) Navigate to the project directory: `cd reddit-clone-k8s-ingress`
-3) Build the Docker image for the Reddit clone app: `docker build -t reddit-clone-app .`
-4) Deploy the app to Kubernetes: `kubectl apply -f deployment.yaml`
-1) Deploy the Service for deployment to Kubernetes: `kubectl apply -f service.yaml`
-5) Enable Ingress by using Command: `minikube addons enable ingress`
-6) Expose the app as a Kubernetes service: `kubectl expose deployment reddit-deployment --type=NodePort --port=5000`
-7) Create an Ingress resource: `kubectl apply -f ingress.yaml`
-
-
-## Test Ingress DNS for the app:
-
-
-## Contributing
-If you'd like to contribute to this project, please open an issue or submit a pull request.
-
+### Application delivery (high level flow)
+1. Developer pushes code to GitHub.
+2. Jenkins pipeline runs:
+   - install dependencies
+   - SonarQube scan + quality gate
+   - OWASP dependency scan
+   - Trivy filesystem scan
+   - Docker build + push to DockerHub with a version tag (BUILD_NUMBER)
+   - update Kubernetes manifest image tag in `K8s/deployment.yml` and push it to GitHub
+3. ArgoCD detects the Git change in `K8s/` and **auto-deploys** the new version to EKS.
+4. The app is exposed via AWS ALB Ingress with HTTPS (ACM cert) and Route 53 DNS.
+5. Monitoring stack (Prometheus + Grafana) is deployed and managed via GitOps or Helm.
 
