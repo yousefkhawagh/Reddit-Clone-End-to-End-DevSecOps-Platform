@@ -1,6 +1,6 @@
 grafana:
   enabled: true
-  adminPassword: "CHANGE_ME_STRONG_PASSWORD"
+  adminPassword: "admin"
   service:
     type: ClusterIP
   ingress:
