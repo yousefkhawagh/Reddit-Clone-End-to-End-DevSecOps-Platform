@@ -15,7 +15,49 @@ spec:
         app: reddit-clone
     spec:
       containers:
-      - name: reddit-clone
-        image: aaboelwafa/reddit:19
-        ports:
-        - containerPort: 3000
+        - name: reddit-clone
+          image: aaboelwafa/reddit:19
+          ports:
+            - containerPort: 3000
+              name: http
+
+          # Health checks
+          startupProbe:
+            httpGet:
+              path: /
+              port: 3000
+            # allow slow cold start (Next build/runtime)
+            failureThreshold: 30
+            periodSeconds: 5
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          # Resource requests/limits
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          # Small hardening 
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
