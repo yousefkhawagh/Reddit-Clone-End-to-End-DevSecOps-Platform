@@ -34,3 +34,48 @@ module "eks" {
   instance_types = var.instance_types
   tags           = var.tags
 }
+
+module "load_balancer_controller" {
+  source = "./modules/load_balancer_controller"
+
+  project_name           = var.project_name
+  eks_cluster_name       = var.cluster_name
+  vpc_id                 = module.vpc.vpc_id
+  alb_ingress_role_arn   = module.iam.alb_ingress_role_arn
+  tags                   = var.tags
+}
+
+output "vpc_id" {
+  description = "The ID of the VPC"
+  value       = module.vpc.vpc_id
+}
+
+output "eks_cluster_endpoint" {
+  description = "The endpoint for the EKS cluster"
+  value       = module.eks.cluster_endpoint
+}
+
+output "eks_cluster_name" {
+  description = "The name of the EKS cluster"
+  value       = module.eks.cluster_name
+}
+
+output "eks_cluster_certificate_authority_data" {
+  description = "The certificate authority data for the EKS cluster"
+  value       = module.eks.cluster_certificate_authority_data
+}
+
+output "alb_controller_namespace" {
+  description = "The namespace where the ALB controller is deployed"
+  value       = module.load_balancer_controller.alb_controller_namespace
+}
+
+output "alb_controller_service_account" {
+  description = "The service account used by the ALB controller"
+  value       = module.load_balancer_controller.alb_controller_service_account
+}
+
+output "alb_controller_helm_release" {
+  description = "The Helm release name for the ALB controller"
+  value       = module.load_balancer_controller.alb_controller_helm_release
+}
