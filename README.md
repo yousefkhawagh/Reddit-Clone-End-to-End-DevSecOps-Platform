@@ -1,6 +1,4 @@
-# 🚀 Reddit Clone – DevSecOps Platform on AWS EKS
-
-**AWS EKS | Jenkins CI | ArgoCD GitOps | Security Scanning | Observability**
+# 🚀 Reddit Clone – DevSecOps Platform on AWS EKS **AWS EKS | Jenkins CI | ArgoCD GitOps | Security Scanning | Observability**
 
 
 An end-to-end **DevSecOps platform** that demonstrates how to build, secure, deploy, and observe a cloud‑native application using **CI/CD, GitOps, Kubernetes, and AWS**.
