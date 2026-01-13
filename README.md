@@ -124,7 +124,6 @@ This guarantees the cluster always matches Git.
 - Kubernetes cluster metrics
 - Application workloads
 - Node & resource utilization
-- Jenkins metrics
 
 ---
 
